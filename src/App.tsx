@@ -1,25 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function App() {
+  const API_URL = "https://api.novaposhta.ua/v2.0/json/";
+  const apiKey = process.env.REACT_APP_NOVA_POSHTA_API_KEY;
+
+  const [responseData, setResponseData] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const requestBody = {
+        apiKey: process.env.REACT_APP_NOVA_POSHTA_API_KEY,
+        modelName: "Address",
+        calledMethod: "searchSettlements",
+        methodProperties: {
+          CityName: "ки",
+          Limit: "10",
+          Page: "1",
+        },
+      };
+
+      const response = await axios.post(API_URL, requestBody);
+      setResponseData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>HI</h1>
+      {responseData && (
+        <div>
+          <h2>Response Data:</h2>
+          <pre>{JSON.stringify(responseData, null, 2)}</pre>
+        </div>
+      )}
+    </>
   );
 }
 
