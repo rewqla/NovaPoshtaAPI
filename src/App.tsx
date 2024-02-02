@@ -61,6 +61,7 @@ function App() {
 
   const handleCityChange = (event: any) => {
     const value = event.target.value;
+    setSelectedCityRef("");
     getSettlements(value);
   };
 
@@ -80,9 +81,11 @@ function App() {
       />
       <DatalistInput
         placeholder="Номер"
+        inputProps={{
+          disabled: selectedCityRef == "",
+        }}
         label="Виберіть точку видачі"
-        onChange={handleCityChange}
-        onSelect={(item) => setSelectedCityRef(item.id)}
+        onSelect={(item) => console.log(item.id)}
         items={warehouses.map((warehouse: any) => ({
           id: warehouse.Ref,
           value: warehouse.Description,
