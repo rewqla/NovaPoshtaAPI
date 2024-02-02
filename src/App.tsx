@@ -10,6 +10,10 @@ function App() {
   const [responseData, setResponseData] = useState([]);
   const [warehouses, setWarehouses] = useState([]);
   const [selectedCityRef, setSelectedCityRef] = useState("");
+  const [selectedWarehouse, setSelectedWarehouse] = useState({
+    name: "",
+    ref: "",
+  });
 
   const getSettlements = async (value: string) => {
     try {
@@ -26,7 +30,8 @@ function App() {
 
       const response = await axios.post(API_URL, requestBody);
       setResponseData(response.data.data[0].Addresses);
-      console.log(responseData);
+      setWarehouses([]);
+      setSelectedWarehouse({ name: "", ref: "" });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -62,6 +67,7 @@ function App() {
   const handleCityChange = (event: any) => {
     const value = event.target.value;
     setSelectedCityRef("");
+    setSelectedWarehouse({ name: "", ref: "" });
     getSettlements(value);
   };
 
@@ -82,10 +88,13 @@ function App() {
       <DatalistInput
         placeholder="Номер"
         inputProps={{
-          disabled: selectedCityRef == "",
+          disabled: selectedCityRef === "",
         }}
+        value={selectedWarehouse.name}
         label="Виберіть точку видачі"
-        onSelect={(item) => console.log(item.id)}
+        onSelect={(item) =>
+          setSelectedWarehouse({ name: item.value, ref: item.id })
+        }
         items={warehouses.map((warehouse: any) => ({
           id: warehouse.Ref,
           value: warehouse.Description,
