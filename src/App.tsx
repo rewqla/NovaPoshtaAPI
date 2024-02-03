@@ -2,77 +2,18 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import DatalistInput from "react-datalist-input";
 import "react-datalist-input/dist/styles.css";
+import { getSettlements, GetWarehouses } from "./api/RequestService";
 import AdditionalInformationForm from "./components/AdditionalInformationForm";
 import RecipientForm from "./components/RecipientForm";
 import SenderForm from "./components/SenderForm";
 
 function App() {
-  const API_URL = "https://api.novaposhta.ua/v2.0/json/";
-  const apiKey = process.env.REACT_APP_NOVA_POSHTA_API_KEY;
+  async function fetchData() {
+    console.log(1222);
+    console.log(await getSettlements("Рівне"));
+  }
+  fetchData();
 
-  const [responseData, setResponseData] = useState([]);
-  const [warehouses, setWarehouses] = useState([]);
-  const [selectedCityRef, setSelectedCityRef] = useState("");
-  const [selectedWarehouse, setSelectedWarehouse] = useState({
-    name: "",
-    ref: "",
-  });
-
-  const getSettlements = async (value: string) => {
-    try {
-      const requestBody = {
-        apiKey: apiKey,
-        modelName: "Address",
-        calledMethod: "searchSettlements",
-        methodProperties: {
-          CityName: value,
-          Limit: "10",
-          Page: "1",
-        },
-      };
-
-      const response = await axios.post(API_URL, requestBody);
-      setResponseData(response.data.data[0].Addresses);
-      setWarehouses([]);
-      setSelectedWarehouse({ name: "", ref: "" });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const getWarehouses = async (value: string) => {
-    try {
-      console.log(value);
-
-      const requestBody = {
-        apiKey: apiKey,
-        modelName: "Address",
-        calledMethod: "getWarehouses",
-        methodProperties: {
-          CityRef: value,
-          Page: "1",
-          Limit: "100",
-          Language: "UA",
-        },
-      };
-
-      const response = await axios.post(API_URL, requestBody);
-      setWarehouses(response.data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    getWarehouses(selectedCityRef);
-  }, [selectedCityRef]);
-
-  const handleCityChange = (event: any) => {
-    const value = event.target.value;
-    setSelectedCityRef("");
-    setSelectedWarehouse({ name: "", ref: "" });
-    getSettlements(value);
-  };
   return (
     <div className="container-fluid ">
       <div className="row justify-content-center">
