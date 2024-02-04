@@ -1,6 +1,7 @@
 import PersonForm from "./PersonForm";
 
 const RecipientForm = () => {
-  return <PersonForm type="Отримувач" target="recipient" />;
+  return <h1>Hi</h1>;
+  // return <PersonForm type="Отримувач" target="recipient" />;
 };
 export default RecipientForm;

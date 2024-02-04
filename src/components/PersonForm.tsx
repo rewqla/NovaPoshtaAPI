@@ -1,7 +1,12 @@
+import ContactPersonDetails from "../interfaces/ContactPersonDetails";
 import LocationDetails from "./LocationDetails";
 import PersonDetails from "./PersonDetails";
-
-const PersonForm = (props: { type: string; target: string }) => {
+interface Props {
+  type: string;
+  target: string;
+  personInfo: ContactPersonDetails;
+}
+const PersonForm = ({ type, target, personInfo }: Props) => {
   return (
     <div className="accordion-item">
       <h2 className="accordion-header" id="headingTwo">
@@ -9,20 +14,19 @@ const PersonForm = (props: { type: string; target: string }) => {
           className="accordion-button collapsed"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target={`#${props.target}-form`}
-          aria-expanded="false"
+          data-bs-target={`#${target}-form`}
         >
-          {props.type}
+          {type}
         </button>
       </h2>
       <div
-        id={`${props.target}-form`}
+        id={`${target}-form`}
         className="accordion-collapse collapse"
         aria-labelledby="headingTwo"
         data-bs-parent="#accordion"
       >
         <div className="p-1">
-          <PersonDetails />
+          <PersonDetails {...personInfo} />
           <LocationDetails />
         </div>
       </div>

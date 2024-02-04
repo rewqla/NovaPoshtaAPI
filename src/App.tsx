@@ -13,14 +13,14 @@ import RecipientForm from "./components/RecipientForm";
 import SenderForm from "./components/SenderForm";
 
 function App() {
-  async function fetchData() {
-    console.log(1222);
-    console.log(await GetCounterpartyRef("Recipient"));
-    console.log(
-      await GetContactPersonSender(await GetCounterpartyRef("Sender"))
-    );
-  }
-  fetchData();
+  // async function fetchData() {
+  //   console.log(1222);
+  //   console.log(await GetCounterpartyRef("Recipient"));
+  //   console.log(
+  //     await GetContactPersonSender(await GetCounterpartyRef("Sender"))
+  //   );
+  // }
+  // fetchData();
 
   return (
     <div className="container-fluid ">

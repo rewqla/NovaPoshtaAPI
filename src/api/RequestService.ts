@@ -76,8 +76,16 @@ export const GetContactPersonSender = async (ref: string) => {
         Page: "1",
       })
     );
+    const contactPersonData = response.data.data[0];
 
-    return response.data.data[0];
+    return {
+      isSender: true,
+      firstName: contactPersonData.FirstName,
+      middleName: contactPersonData.MiddleName,
+      lastName: contactPersonData.LastName,
+      phoneNumber: contactPersonData.Phones,
+      personRef: contactPersonData.Ref,
+    };
   } catch (error) {
     console.error("Error fetching data:", error);
   }
