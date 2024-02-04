@@ -16,12 +16,12 @@ function CreateRequestBody(model: string, method: string, properties: any) {
   };
 }
 
-export const GetWarehouses = async (value: string) => {
+export const GetWarehouses = async (cityRef: string) => {
   try {
     const response = await axios.post(
       API_URL,
       CreateRequestBody("Address", "getWarehouses", {
-        CityRef: value,
+        CityRef: cityRef,
         Page: "1",
         Limit: "100",
         Language: "UA",
@@ -34,12 +34,12 @@ export const GetWarehouses = async (value: string) => {
   }
 };
 
-export const getSettlements = async (value: string) => {
+export const GetSettlements = async (cityName: string) => {
   try {
     const response = await axios.post(
       API_URL,
       CreateRequestBody("Address", "searchSettlements", {
-        CityName: value,
+        CityName: cityName,
         Limit: "10",
         Page: "1",
       })
@@ -51,6 +51,35 @@ export const getSettlements = async (value: string) => {
   }
 };
 
-export const GetCounterpartyRef = async () => {};
-export const GetSender = async () => {};
+export const GetCounterpartyRef = async (counterpartyProperty: string) => {
+  try {
+    const response = await axios.post(
+      API_URL,
+      CreateRequestBody("Counterparty", "getCounterparties", {
+        CounterpartyProperty: counterpartyProperty,
+        Page: "1",
+      })
+    );
+
+    return response.data.data[0].Ref;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const GetContactPersonSender = async (ref: string) => {
+  try {
+    const response = await axios.post(
+      API_URL,
+      CreateRequestBody("Counterparty", "getCounterpartyContactPersons", {
+        Ref: ref,
+        Page: "1",
+      })
+    );
+
+    return response.data.data[0];
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 export const Tracking = async () => {};

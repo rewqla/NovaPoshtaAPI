@@ -2,7 +2,12 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import DatalistInput from "react-datalist-input";
 import "react-datalist-input/dist/styles.css";
-import { getSettlements, GetWarehouses } from "./api/RequestService";
+import {
+  GetContactPersonSender,
+  GetCounterpartyRef,
+  GetSettlements,
+  GetWarehouses,
+} from "./api/RequestService";
 import AdditionalInformationForm from "./components/AdditionalInformationForm";
 import RecipientForm from "./components/RecipientForm";
 import SenderForm from "./components/SenderForm";
@@ -10,7 +15,10 @@ import SenderForm from "./components/SenderForm";
 function App() {
   async function fetchData() {
     console.log(1222);
-    console.log(await getSettlements("Рівне"));
+    console.log(await GetCounterpartyRef("Recipient"));
+    console.log(
+      await GetContactPersonSender(await GetCounterpartyRef("Sender"))
+    );
   }
   fetchData();
 
